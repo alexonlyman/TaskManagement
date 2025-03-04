@@ -45,5 +45,7 @@ mvn clean package -DskipTests
 
 🐳 Шаг 3: Запуск с помощью Docker Compose
 
+docker compose build
+
 docker compose up -d
 
