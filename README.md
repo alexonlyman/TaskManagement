@@ -35,9 +35,9 @@ API должно позволять получать задачи конкрет
 
 📥 Шаг 1: Клонирование репозитория
 
-git clone 
+git clone https://github.com/alexonlyman/TaskManagement
 
-cd 
+cd TaskManagement
 
 🛠 Шаг 2: Сборка JAR-файла
 
