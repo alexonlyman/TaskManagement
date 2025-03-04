@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @Tag(name = "UserController", description = "Контроллер для управления информацией о пользователях")
 @AllArgsConstructor
+@CrossOrigin(value = "http://localhost:8080")
 public class UserController {
     private final UserServiceImpl userService;
 

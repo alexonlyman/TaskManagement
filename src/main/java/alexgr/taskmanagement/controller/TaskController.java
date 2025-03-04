@@ -36,6 +36,7 @@ import java.util.Map;
 @RequestMapping("/task")
 @Tag(name = "Task Controller", description = "API для управления задачами")
 @RequiredArgsConstructor
+@CrossOrigin(value = "http://localhost:8080")
 public class TaskController {
 
     private final TaskServiceImpl taskService;
