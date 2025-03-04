@@ -1,48 +1,61 @@
-package com.example.taskmanagment.controller;
+package alexgr.taskmanagement.controller;
 
-import com.example.taskmanagment.dto.auth.Register;
-import com.example.taskmanagment.exeptions.WrongLoginPasswordExeption;
-import com.example.taskmanagment.service.impl.AuthService;
-import com.example.taskmanagment.utils.AuthenticationResponse;
+import alexgr.taskmanagement.dto.auth.AuthPayload;
+import alexgr.taskmanagement.service.impl.AuthService;
+import alexgr.taskmanagement.utils.AuthenticationResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
+/**
+ * AuthController is a REST controller responsible for handling user authentication and registration requests.
+ * <p>
+ * It provides endpoints for user registration and authentication, and logs authentication-related events.
+ */
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Authentication", description = "Handles user registration and authentication")
 public class AuthController {
-    @Autowired
+
     private final AuthService authService;
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
-
-    @Operation(summary = "регистрация нового пользователя", description = "регистрирует пользователя по почте и паролю и генерирует jwt token", tags={ "регистрация пользователя" })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "401", description = "Unautorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden") })
+    /**
+     * Handles user registration requests.
+     * <p>
+     * This endpoint accepts a JSON payload containing user credentials and passes it to the {@link AuthService} for processing.
+     *
+     * @param authPayload the {@link AuthPayload} containing user registration details
+     * @return a {@link ResponseEntity} containing the {@link AuthenticationResponse} with registration details
+     */
+    @Operation(summary = "Register a new user", description = "Handles user registration requests")
+    @ApiResponse(responseCode = "200", description = "User successfully registered")
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody Register register) {
-        return ResponseEntity.ok(authService.register(register));
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthPayload authPayload) {
+        return ResponseEntity.ok(authService.register(authPayload));
     }
 
-    @Operation(summary = "aутентификация пользователя", description = "аутентифицирует пользователя и генерирует jwt token", tags={ "аутентификация пользователя" })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "401", description = "Unautorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden") })
+    /**
+     * Handles user authentication requests.
+     * <p>
+     * This endpoint accepts a JSON payload containing user credentials, logs the request, and passes it to the
+     * {@link AuthService} for authentication.
+     *
+     * @param authPayload the {@link AuthPayload} containing user login details
+     * @return a {@link ResponseEntity} containing the {@link AuthenticationResponse} with authentication details
+     */
+    @Operation(summary = "Authenticate user", description = "Handles user authentication requests")
+    @ApiResponse(responseCode = "200", description = "User successfully authenticated")
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> auth(@RequestBody Register register) throws WrongLoginPasswordExeption {
+    public ResponseEntity<AuthenticationResponse> auth(@RequestBody AuthPayload authPayload) {
         logger.trace("данные получены");
-        return ResponseEntity.ok(authService.authentication(register));
+        return ResponseEntity.ok(authService.authenticate(authPayload));
     }
 
 }
