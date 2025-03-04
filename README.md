@@ -49,3 +49,9 @@ docker compose build
 
 docker compose up -d
 
+Приложение запускается по умолчанию на порту 8080
+
+Доступен Swagger UI 
+
+http://localhost:8080/swagger-ui/index.html
+
